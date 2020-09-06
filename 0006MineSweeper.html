@@ -57,14 +57,14 @@
 			clickCell(cell) {
 				clickCell(cell, true);
 				if(cell.game.revealed) {
-					this.data.game = game;
+					this.game = game;
 				}
 			},
 			toggleCellMarkMine(cell, e) {
 				e.preventDefault();
 				const toggleSuccess = toggleCellMarkMine(cell);
 				if (toggleSuccess) {
-					this.data.game = game;
+					this.game = game;
 				}
 			}
 		}
