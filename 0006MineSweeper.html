@@ -24,7 +24,55 @@
     <b>HOW TO PLAY:</b> 左键点击未知方块：探测地雷；左键点击数字方块：自动探测周围地雷；右键点击：标记地雷/取消标记地雷。
 </center>
 
+<script src="./mineSweeper.js"></script>
+<script type="text/javascript" src="./vue.global.js"></script>
+<script type="text/javascript">
 
+    //<!--
+    const urlParams = new URLSearchParams(window.location.search);
+    const rowCount = Number.parseInt(urlParams.get('rowCount') || '16');
+    const colCount = Number.parseInt(urlParams.get('colCount') || '16');
+    const mineCount = Number.parseInt(urlParams.get('mineCount') || '40');
+
+    let game = makeGame(rowCount, colCount, mineCount);
+    printGame(game, true);
+    printGame(game);
+
+    const HelloVueApp = {
+        data() {
+            return {
+                restartMessage: '重新开始',
+                game: game,
+            }
+        },
+        methods: {
+            restartGame() {
+
+                // const rowCount = Number.parseInt(urlParams.get('rowCount') || '16');
+                // const colCount = Number.parseInt(urlParams.get('colCount') || '16');
+                // const mineCount = Number.parseInt(urlParams.get('mineCount') || '40');
+                window.location.href = window.location.href.split('?')[0] + `?rowCount=${rowCount}` + `&colCount=${colCount}` + `&mineCount=${mineCount}`;
+            },
+            printCell: printCell,
+            clickCell(cell) {
+                clickCell(cell, true);
+                if(cell.game.revealed) {
+                    this.game = game;
+                }
+            },
+            toggleCellMarkMine(cell, e) {
+                e.preventDefault();
+                const toggleSuccess = toggleCellMarkMine(cell);
+                if (toggleSuccess) {
+                    this.game = game;
+                }
+            }
+        }
+    }
+
+    Vue.createApp(HelloVueApp).mount('#game')
+    //-->
+</script>
 </body>
 
 </html>
